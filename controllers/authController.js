@@ -1,6 +1,7 @@
 import User from "../model/User.js";
 import { registerValidation, loginValidation } from "../userValidation.js";
 import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   // register validation
@@ -54,7 +55,16 @@ export const login = async (req, res) => {
     );
 
     if (!isPasswordValid) return res.status(401).send("Invalid Password");
-    res.status(200).send("user loggedin successfully")
+    const token = jwt.sign(
+      {
+        id: user.id,
+      },
+      process.env.JWT_TOKEN
+    );
+    res.status(200).header("auth-token", token).send({
+      token,
+      user,
+    });
   } catch (err) {
     res.status(400).send(err);
     console.log(err);
