@@ -23,9 +23,11 @@ app.use(bodyParser.json());
 
 // Route Imports
 import authRoute from "./routes/auth.js";
+import dashboardRoute from "./routes/dashboard.js";
 
 // Route Middleware
 app.use("/api/v1/auth", authRoute);
+app.use("/api/v1/dashboard", dashboardRoute);
 
 // App connection
 const port = process.env.PORT || 8002;
