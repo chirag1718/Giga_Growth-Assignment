@@ -26,7 +26,6 @@ export const message = async (req, res) => {
     });
 
     const savedMessage = await newMessage.save();
-    console.log(savedMessage);
     res.status(200).send(savedMessage);
   } catch (err) {
     res.status(400).send(err);
