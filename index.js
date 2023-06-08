@@ -14,7 +14,14 @@ mongoose
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("Connected to db "))
+  .then(() => {
+    // App connection
+    const port = process.env.PORT || 8002;
+    app.listen(port, () => {
+      console.log("Server is up and running");
+    }); 
+    console.log("Connected to db ");
+  })
   .catch((e) => console.log(e, "Mongo DB connection error"));
 
 //  Middlewares
@@ -25,10 +32,7 @@ app.use(bodyParser.json());
 import dashboardRoute from "./routes/dashboard.js";
 
 // Route Middleware
-app.use("/api/v1/dashboard", dashboardRoute);
-
-// App connection
-const port = process.env.PORT || 8002;
-app.listen(port, () => {
-  console.log("Server is up and running");
+app.get("/health", (req, res) => {
+  res.send("server is healthy");
 });
+app.use("/api/v1/dashboard", dashboardRoute);
